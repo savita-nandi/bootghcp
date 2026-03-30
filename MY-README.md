@@ -8,6 +8,7 @@ Summary of actions and useful links related to GitHub Copilot installation and w
 - Eclipse: 2024-12 -> 4.34
 - Agent model: GPT-5 mini
 - Apache Tomcat: 10.0.11
+- Github CLI: 2.88.0 (2026-03-10)
 
 ## References
 - Installing the GitHub Copilot extension in your environment:
@@ -16,6 +17,7 @@ Summary of actions and useful links related to GitHub Copilot installation and w
   https://docs.github.com/en/copilot/concepts-
 - Using Chat variables, Chat participants & Chat commands: 	https://docs.github.com/en/copilot/reference/chat-cheat-sheet?tool=vscode#chat-variables
 - Basic Github Copilot-training: https://github.com/naveennaik/Copilot-training/blob/main/labs/Lab-1-Getting-Started.md
+- GitHub CLI command list: https://cli.github.com/manual/gh
 
 ## Github Copilot-Pro test scope
 - Chat mode: This mode only explains and does not edit files
@@ -33,10 +35,11 @@ Webmvc, jpa, thymeleaf
 - Manual: Created a local repository inside project folder with master as initial branch, git init -b master
 - Manual: Added the files, git add --all
 - Manual: Committed the files, git commit -m "initial commit"
-- Manual: Open MCPRegistry, search for github-mcp-server and install it and authenticate MCPServerPlugin to access Github.
-- Prompt: Using github-mcp-server tool, create a new public repository as "testghcopilot" in Github with owner as "savita-nandi" and initial branch as "master".Add the new remote repo "testghcopilot" as remote origin locally using HTTPS protocol.
-- Manual: Installed Github-CLI to delete repos as prompts do not delete repos
-- Manual: Push the changes committed in the local to the new repository, git push -u origin master as MCPServer does not allow you to pass passwords in prompts. 
+- Manual: Open MCPRegistry, search for `github-mcp-server` and install it and authenticate MCPServerPlugin to access Github.
+- Manual: Install Github CLI from Url `https://cli.github.com/`. Login to github via CLI.Once CLI is authorized in github, Github-Mcp-Server automatically gets authorized to perform actions on your behalf
+- Prompt: Using github-mcp-server tool, create a new public repository as `bootghcp` in Github with owner as `savita-nandi` using API endpoint Url as `https://api.github.com/user`.Ensure the new repo is empty. Set the initial branch as `master`.Add the new remote repo `bootghcp` as remote origin locally using HTTPS protocol.
+- Manual: Use Github-CLI to delete repos as prompts are not authorized to delete repos
+- Manual: Push the changes committed in the local to the new repository, `git push -u origin master` as MCPServer does not allow you to pass credentials in prompts. 
 - Prompt: Verify the push on GitHub.
 
 

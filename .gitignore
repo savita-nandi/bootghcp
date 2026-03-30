@@ -41,3 +41,4 @@ build/*
 # Keep the .gitignore itself
 !.gitignore
 .gitattributes
+/target/
