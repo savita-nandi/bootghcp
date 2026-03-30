@@ -44,6 +44,21 @@ public class UserdetailsController {
     }
 
     /**
+     * GET /api/userdetails/testapi
+     * Test Api without hitting database to verify controller is working and environment is set up correctly.
+     */
+    @GetMapping("/testapi")
+    public ResponseEntity<String> testApi() {
+        
+    	try {
+    		return ResponseEntity.ok("API is working! Current time: " + LocalDateTime.now());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+    
+    /**
      * GET /api/userdetails/
      * List all users.
      *
@@ -53,7 +68,7 @@ public class UserdetailsController {
     public ResponseEntity<List<Userdetails>> getAll() {
         try {
             
-        	printActiveProfiles();
+        	//printActiveProfiles();
         	
         	List<Userdetails> all = repo.findAll();
             return ResponseEntity.ok(all);

@@ -36,9 +36,10 @@ Webmvc, jpa, thymeleaf
 - Manual: Added the files, git add --all
 - Manual: Committed the files, git commit -m "initial commit"
 - Manual: Open MCPRegistry, search for `github-mcp-server` and install it and authenticate MCPServerPlugin to access Github.
-- Manual: Install Github CLI from Url `https://cli.github.com/`. Login to github via CLI.Once CLI is authorized in github, Github-Mcp-Server automatically gets authorized to perform actions on your behalf
-- Prompt: Using github-mcp-server tool, create a new public repository as `bootghcp` in Github with owner as `savita-nandi` using API endpoint Url as `https://api.github.com/user`.Ensure the new repo is empty. Set the initial branch as `master`.Add the new remote repo `bootghcp` as remote origin locally using HTTPS protocol.
+- Manual: Install Github CLI from Url `https://cli.github.com/`. Login to github via CLI using command `gh auth login`.Once CLI is authorized in github, Github-Mcp-Server automatically gets authorized to perform actions on your behalf
+- Prompt: Using github-mcp-server tool, create a new public repository as `bootghcp` in Github with owner as `savita-nandi` using API endpoint Url as `https://api.github.com/user`.Ensure the new repo is empty with no commits. Set the initial branch as `master`.Add the new remote repo `bootghcp` as remote origin locally using HTTPS protocol.
 - Manual: Use Github-CLI to delete repos as prompts are not authorized to delete repos
+- Manual: Login to `Github-Cli` and get additional permissions to delete a remote repo using command ` gh auth refresh -h github.com -s delete_repo`
 - Manual: Push the changes committed in the local to the new repository, `git push -u origin master` as MCPServer does not allow you to pass credentials in prompts. 
 - Prompt: Verify the push on GitHub.
 
