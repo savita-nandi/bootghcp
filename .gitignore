@@ -1,0 +1,43 @@
+# Maven target directory
+/target/*
+/target-war/*
+
+# Eclipse files
+.metadata/
+.classpath
+.project
+.settings/*
+.mvn/*
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Dependency directories
+/node_modules/
+
+
+# Build and log files
+*.log
+*.tmp
+*.class
+
+
+# Sensitive files and keys (do not commit)
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+*.crt
+
+# Gradle
+.gradle/*
+build/*
+
+# Keep the .gitignore itself
+!.gitignore
+.gitattributes

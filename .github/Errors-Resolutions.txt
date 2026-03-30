@@ -1,0 +1,27 @@
+
+ERROR:26Mar26
+java.lang.IllegalArgumentException: methods with same signature getSchemaManager() but incompatible return types: [interface org.hibernate.relational.SchemaManager, interface jakarta.persistence.SchemaManager]
+RESOLUTION:changed Copilot-agent placed jakarta-persistence-api version 3.2.0 to 3.1.0
+
+
+ERROR:26Mar26
+java.lang.NoSuchFieldError: Class com.sun.tools.javac.tree.JCTree$JCImport does not have member field 'com.sun.tools.javac.tree.JCTree qualid'
+RESOLUTION: resolved by changing Copilot-agent placed lombok version 1.18.26 to 1.18.42
+
+ERROR:
+Caused by: java.nio.file.InvalidPathException: Illegal char <:> at index 9: classpath:database/testghcp
+RESOLUTION: Moved the file from resources to project root folder under database.
+
+ERROR:25Mar26
+There was an unexpected error (type=Not Found, status=404).
+No static resource h2-console.
+org.springframework.web.servlet.resource.NoResourceFoundException: No static resource h2-console for request '/h2-console'.
+RESOLUTION:https://medium.com/@raushan1156/h2-console-not-working-in-spring-boot-4-0-0-7873e20c82d5
+spring-boot:4.x.x uses spring-boot-starter-webmvc while H2 console autoconfiguration works spring-boot-starter-web. Howeerv including the 4.x.x web-jar does not resolve and have to switch to 3.5.8 web-jar
+
+ERROR:25Mar26
+2026-03-25T18:55:27.563+05:30  WARN 29720 --- [bootghcp] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.boot.hibernate.autoconfigure.HibernateJpaConfiguration': Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/jdbc/autoconfigure/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+RESOLUTION:The h2 library was missing from pom.xml. I had assumed that the agent had added it after deleting the 1st set of changes and asking the Copilot Agent to reapply the changes based on the MD file
+
+
+
