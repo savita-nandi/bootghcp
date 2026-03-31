@@ -18,6 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,8 +54,10 @@ public class UserdetailsController {
     public ResponseEntity<String> testCloudApi() {
         
     	try {
-    		return ResponseEntity.ok("Cloud API is working! Current time: " + LocalDateTime.now());
-        } catch (Exception e) {
+    		//return ResponseEntity.ok("Cloud API is working! Current time: " + convertDateTimeToLocalTZ());
+    		return ResponseEntity.ok("Cloud API is working! Current time: " + LocalDateTime.now().toString());
+        } 
+    	catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
         }
@@ -66,7 +71,11 @@ public class UserdetailsController {
     public ResponseEntity<String> testApi() {
         
     	try {
-    		return ResponseEntity.ok("API is working! Current time: " + LocalDateTime.now());
+			/*
+			 * return ResponseEntity.ok("API is working! Current time: " +
+			 * convertDateTimeToLocalTZ());
+			 */
+    		return ResponseEntity.ok("API is working! Current time: " + LocalDateTime.now().toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null);
@@ -352,4 +361,11 @@ public class UserdetailsController {
             return message;
         }
     }
+    
+    public String convertDateTimeToLocalTZ() {
+
+    	ZonedDateTime istNow = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
+        String formattedDate = istNow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z"));
+		return formattedDate;
+	}
 }

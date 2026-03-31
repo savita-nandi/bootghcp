@@ -4,9 +4,17 @@
 FROM eclipse-temurin:21-jre-jammy
 # Set the working directory inside the container
 WORKDIR /myapp
+
+# Copy your application files from your host's build context (where your Dockerfile is) 
+# into the /app directory inside the container
 COPY . .
+
+RUN ls -la /myapp/
+
 # Build the application
 RUN mvn clean package -DskipTests
+
+RUN ls -la /myapp/target/
 
 # Stage 2: Deploy the WAR file to a Tomcat container
 # Ensure the Tomcat version supports the JDK version used for building
@@ -30,8 +38,8 @@ COPY --from=build /myapp/target/*.war bootghcp.war
 
 # Copy the local database file (e.g., 'testghcp.mv.db' from your host machine's build context) 
 # to the newly created directory inside the container
-COPY --from=build /myapp/target/bootghcp/WEB-INF/classes/Database/H2/testghcp.mv.db /opt/myapp/db/testghcp.mv.db
-COPY --from=build /myapp/target/bootghcp/WEB-INF/classes/Database/H2/testghcp.trace.db /opt/myapp/db/testghcp.trace.db
+## COPY --from=build /myapp/target/bootghcp/WEB-INF/classes/Database/H2/testghcp.mv.db /opt/myapp/db/testghcp.mv.db
+## COPY --from=build /myapp/target/bootghcp/WEB-INF/classes/Database/H2/testghcp.trace.db /opt/myapp/db/testghcp.trace.db
 
 EXPOSE 8080
 
