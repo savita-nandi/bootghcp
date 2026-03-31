@@ -42,6 +42,21 @@ public class UserdetailsController {
         this.repo = repo;
         this.env = env;
     }
+    
+    /**
+     * GET /api/userdetails/testcloudapi
+     * Test Api without hitting database to verify controller is working and environment is set up correctly.
+     */
+    @GetMapping("/testcloudapi")
+    public ResponseEntity<String> testCloudApi() {
+        
+    	try {
+    		return ResponseEntity.ok("Cloud API is working! Current time: " + LocalDateTime.now());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
 
     /**
      * GET /api/userdetails/testapi

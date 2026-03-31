@@ -1,5 +1,6 @@
 # --- Stage 1: Build the application WAR file ---
 # Start from Eclipse Temurin JRE 21 on Ubuntu Jammy
+# Image available from Url: https://hub.docker.com/_/eclipse-temurin/tags?name=21-jre-jammy
 FROM eclipse-temurin:21-jre-jammy
 # Set the working directory inside the container
 WORKDIR /myapp
@@ -9,6 +10,7 @@ RUN mvn clean package -DskipTests
 
 # Stage 2: Deploy the WAR file to a Tomcat container
 # Ensure the Tomcat version supports the JDK version used for building
+# Image Avlble in URL: https://hub.docker.com/_/tomcat/tags?name=10.1.24-jdk21-temurin-jammy
 FROM tomcat:10.1.24-jdk21-temurin-jammy
 
 # Remove default web applications (optional, adjust as needed for your deployment)
