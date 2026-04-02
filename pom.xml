@@ -14,8 +14,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<!--The application can be packaged as either a jar or a war and works fine
 	in the local environment. However as a jar it cannot be deployed to Tomcat
-	Server, hence packaging set to war.
-	<packaging>jar</packaging>-->
+	Server, hence packaging set to war. When testing with Jar, in ApiUrl 
+	remove context-path=bootghcp-->
+	<!--<packaging>jar</packaging>-->
 	<packaging>war</packaging>
 	
 	<properties>

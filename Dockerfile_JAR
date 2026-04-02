@@ -1,0 +1,22 @@
+# --- STAGE 1: Copy JAR from Host to Container---
+
+# Start from Eclipse Temurin JRE 21 on Ubuntu Jammy. Since its Jar, Tomcat image not required
+# Image available from Url: https://hub.docker.com/_/eclipse-temurin/tags?name=21-jre-jammy
+FROM eclipse-temurin:21-jre-jammy AS appsource
+
+# Set the working directory inside the container
+WORKDIR /myapp
+
+# Copy your application files from your host's build context (where your Dockerfile is) 
+# into the /app directory inside the container
+COPY . .
+
+# Since we are in the Temurin Image context, the context=appsource is not required for the below copy
+# Copy the JAR from Host-context into the container at /app
+COPY /target/*.jar ./bootghcp.jar
+
+# Expose the container to run on this port
+EXPOSE 8080
+
+# Run the jar file
+CMD ["java", "-jar", "bootghcp.jar"]

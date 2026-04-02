@@ -1,6 +1,9 @@
-# --- STAGE 1: Copy the application SOURCE and BUILD application ---
-# To include a build stage the mvnJava21 image has to be used
-FROM maven:3.9.6-eclipse-temurin-21-jammy AS appbuild
+# --- STAGE 1: Copy WAR from Host to Container---
+
+# Start from Eclipse Temurin JRE 21 on Ubuntu Jammy
+# Image available from Url: https://hub.docker.com/_/eclipse-temurin/tags?name=21-jre-jammy
+# 'appsource' is the name of the copy stage, which we will reference in the second stage
+FROM eclipse-temurin:21-jre-jammy AS appsource
 
 # Set the working directory inside the container
 WORKDIR /myapp
@@ -13,12 +16,6 @@ COPY . .
 # However the the contents of the /myapp directory are not listed during docker build in local host machine as the build context does not include the target directory, which is generated after running mvn package locally.
 RUN ls -la /myapp/
 
-# Build the application.Commented it as it is optional if you have already built the WAR file locally and just want to copy it into the container.
-RUN mvn clean package -DskipTests
-
-# List the contents of the target directory to verify the WAR file is present
-# However it does not list during docker build in local host machine as the build context does not include the target directory, which is generated after running mvn package locally.
-# RUN ls -la /myapp/target/
 
 # STAGE 2: Deploy the WAR file to a Tomcat container
 # Ensure the Tomcat version supports the JDK version used for building
@@ -36,9 +33,9 @@ ENV JAVA_OPTS="-Dspring.profiles.active=prod"
 WORKDIR /usr/local/tomcat/webapps/
 
 # Copy the WAR file from the 'build' stage to the Tomcat webapps directory
-COPY --from=appbuild /myapp/target/*.war bootghcp.war 
+COPY --from=appsource /myapp/target/*.war bootghcp.war 
 
-# Expose the container to run on this port`
+# Expose the container to run on this port
 EXPOSE 8080
 
 # The default CMD of the tomcat image runs catalina.sh, which starts the server

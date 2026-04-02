@@ -32,7 +32,7 @@ import java.util.Optional;
  * returns ResponseEntity to control HTTP status codes.
  */
 
-/** Url: http://localhost:8080/api/userdetails/ */
+/** Url: http://localhost:8080/bootghcp/api/userdetails/ */
 @RestController
 @RequestMapping("/api/userdetails")
 @Validated
