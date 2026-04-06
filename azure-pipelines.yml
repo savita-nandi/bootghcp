@@ -11,29 +11,40 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '9f45d287-b053-452b-928b-f8d40d77ac51'
-  imageRepository: 'bootghcp'
+  imageRepository: 'image-sprbootjavatomcat'
   containerRegistry: 'containerregistrysbssouth-g3fjc2dmh6g7ctgb.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+# Agent VM image name
+pool:
+  name: 'vmdevopsagentsbs'
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build docker image
   jobs:
   - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
+    displayName: Build docker image    
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build docker image
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+- stage: Push
+  displayName: Push docker image to ACR
+  jobs:
+  - job: Push
+    displayName: Push docker image to ACR   
+    steps:
+    - task: Docker@2
+      displayName: Push docker image to ACR
+      inputs:
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'push'
+        tags: '$(tag)'
