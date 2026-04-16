@@ -1,0 +1,50 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '9f45d287-b053-452b-928b-f8d40d77ac51'
+  imageRepository: 'image-sprbootjavatomcat'
+  containerRegistry: 'containerregistrysbssouth-g3fjc2dmh6g7ctgb.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+# Agent VM image name
+pool:
+  name: 'vmdevopsagentsbs'
+
+stages:
+- stage: Build
+  displayName: Build docker image
+  jobs:
+  - job: Build
+    displayName: Build docker image    
+    steps:
+    - task: Docker@2
+      displayName: Build docker image
+      inputs:
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+- stage: Push
+  displayName: Push docker image to ACR
+  jobs:
+  - job: Push
+    displayName: Push docker image to ACR   
+    steps:
+    - task: Docker@2
+      displayName: Push docker image to ACR
+      inputs:
+        containerRegistry: '$(dockerRegistryServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'push'
+        tags: '$(tag)'
