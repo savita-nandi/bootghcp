@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: containerappsbs-deployment
+  labels:
+    app: containerappsbs 
+  namespace: default
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: containerappsbs  
+  template:
+    metadata:
+      labels:
+        app: containerappsbs
+    spec:
+      containers:
+      - name: akscontainer
+        image: containerregistrysbssouth-g3fjc2dmh6g7ctgb.azurecr.io/image-sprbootjavatomcat        
+        ports:        
+        - containerPort: 8080
