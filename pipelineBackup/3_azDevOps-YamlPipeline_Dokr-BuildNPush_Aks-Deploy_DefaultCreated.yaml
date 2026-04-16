@@ -1,0 +1,76 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'b8e9e0b3-d004-46c9-a308-9f78acb7434d'
+  imageRepository: 'imagesprbootjavatomcat'
+  containerRegistry: 'containerregistrysbssouth-g3fjc2dmh6g7ctgb.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: 'containerregistrysbssouth1543419d-auth'
+
+  # Agent VM image name
+pool:
+  name: 'vmdevopsagentsbs'
+
+
+stages:
+- stage: Build
+  displayName: Build and push Docker image to ACR
+  jobs:
+  - job: Build
+    displayName: Build and push Docker image to ACR   
+    steps:
+    - task: Docker@2
+      displayName: Build and push Docker image to ACR
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - upload: manifests
+      artifact: manifests
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy    
+    environment: 'bootghcpBuildDeploy2Aks.default'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/kubernetes/deployment.yaml
+                $(Pipeline.Workspace)/kubernetes/service.yaml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
+
