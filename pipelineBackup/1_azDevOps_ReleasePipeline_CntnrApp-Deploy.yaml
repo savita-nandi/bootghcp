@@ -6,7 +6,8 @@ steps:
     azureSubscription: 'AzurePaygSbs (4097ef41-1d86-4087-8b33-3b9d8b71e385)'
     acrName: 'containerregistrysbssouth-g3fjc2dmh6g7ctgb'
     acrUsername: '591fb016-09ea-4078-bd4a-2aa64148cb40'
-    acrPassword: 'Bez8Q~LRJo9MdjXTzpwYksVg1uBWyt02x47IGbXg'
+	
+     #ThisIsPlaceHolderfor thePwordKey-value pair.GitHub commits prohibit comiting cleartext values
     imageToDeploy: 'containerregistrysbssouth-g3fjc2dmh6g7ctgb.azurecr.io/image-sprbootjavatomcat:$(Build.BuildId)'
     containerAppName: containerappsbs
     resourceGroup: RGPayg
